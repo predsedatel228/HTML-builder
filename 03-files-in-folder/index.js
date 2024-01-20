@@ -8,7 +8,7 @@ function fileInfo(file) {
   if (file.isFile()) {
     let name = file.name.slice(0, file.name.lastIndexOf('.'));
     let extension = file.name.slice(
-      file.name.lastIndexOf('.'),
+      file.name.lastIndexOf('.') + 1,
       file.name.length,
     );
     let filePath = path.join(folderPath, file.name);
@@ -16,7 +16,9 @@ function fileInfo(file) {
       if (error) {
         console.log(error.message);
       }
-      stdout.write(`${name} - ${extension} - ${stat.size} bytes\n`);
+      stdout.write(
+        `${name} - ${extension} - ${(stat.size / 1024).toFixed(2)} kb\n`,
+      );
     });
   }
 }
