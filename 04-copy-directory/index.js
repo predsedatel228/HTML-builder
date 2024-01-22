@@ -1,7 +1,7 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-async function copy() {
+async function copyDir() {
   const directory = path.join(__dirname, 'files');
   const copyDerictory = path.join(__dirname, 'files-copy');
 
@@ -16,6 +16,6 @@ async function copy() {
   //console.log('1');
 }
 
-copy();
+copyDir();
 // console.log('2');
 // console.log('3');
