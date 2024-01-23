@@ -5,12 +5,11 @@ const fs = require('fs');
 
 const projectFolder = path.join(__dirname, 'project-dist');
 
-const htmlPath = path.join(projectFolder, 'index.html');
-
+const componentsPath = path.join(__dirname, 'components');
 const templatePath = path.join(__dirname, 'template.html');
 
 const stylesFolder = path.join(__dirname, 'styles');
-const styleFile = path.join(projectFolder, 'style.css');
+const styleFile = path.join(__dirname, 'style.css');
 const assetsFolder = path.join(__dirname, 'assets');
 
 
@@ -23,6 +22,7 @@ async function createFolder() {
   }
   copyDir(assetsFolder, projectFolder)
   writeStyles()
+  createHtml()
 }
 createFolder();
 
@@ -62,5 +62,14 @@ async function writeStyles() {
   });
 }
 
-
-
+async function createHtml() {
+  const files = await fsPromises.readdir(componentsPath, { withFileTypes: true });
+  let template = await fsPromises.readFile(templatePath, 'utf-8');
+  files.map(async (file) => {
+    let componentName = file.name.slice(0, file.name.lastIndexOf('.'));
+    let componentPath = path.join(componentsPath, file.name);
+    const component = await fsPromises.readFile(componentPath, 'utf-8');
+    template = template.replace(`{{${componentName}}}`, component);
+    await fsPromises.writeFile(templatePath, template);
+  })
+}
