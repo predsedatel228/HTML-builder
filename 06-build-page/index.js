@@ -17,9 +17,9 @@ async function createFolder() {
   } catch (error) {
     console.log(error);
   }
-  copyDir(assetsFolder, copyAssets);
-  writeStyles();
-  createHtml();
+  await copyDir(assetsFolder, copyAssets);
+  await writeStyles();
+  await createHtml();
 }
 createFolder();
 
