@@ -62,11 +62,11 @@ async function createHtml() {
     withFileTypes: true,
   });
   let template = await fsPromises.readFile(templatePath, 'utf-8');
-  files.map(async (file) => {
-    let componentName = file.name.slice(0, file.name.lastIndexOf('.'));
-    let componentPath = path.join(componentsPath, file.name);
+  for (let i = 0; i < files.length; i++) {
+    let componentName = files[i].name.slice(0, files[i].name.lastIndexOf('.'));
+    let componentPath = path.join(componentsPath, files[i].name);
     const component = await fsPromises.readFile(componentPath, 'utf-8');
     template = template.replace(`{{${componentName}}}`, component);
-    fsPromises.writeFile(indexPath, template);
-  });
+  }
+  await fsPromises.writeFile(indexPath, template);
 }
